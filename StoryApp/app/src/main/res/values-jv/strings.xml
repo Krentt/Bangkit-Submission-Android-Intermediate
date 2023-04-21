@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">StoryApp</string>
+    <string name="login">Mlebu</string>
+    <string name="username">username</string>
+    <string name="email">Email</string>
+    <string name="password">Sandi</string>
+    <string name="login_button">Mlebu</string>
+    <string name="register_description">Durung duwe akun? Gawe saiki!</string>
+    <string name="register_button">Dhaptar</string>
+    <string name="email_hint">Ketik email panjenengan</string>
+    <string name="nama_hint">Ketik jeneng panjenengan</string>
+    <string name="logout">Metu</string>
+    <string name="camera">Kamera</string>
+    <string name="gallery">Album</string>
+    <string name="upload">Unggah</string>
+    <string name="description">Katrangan</string>
+    <string name="nama_pengguna">Nama Pengguna</string>
+    <string name="tanggal_post">10/03/2004</string>
+    <string name="ini_adalah_deskripsi_gambar">Ini adalah deskripsi gambar</string>
+    <string name="change_language">Ganti basa</string>
+    <string name="title_stories">Carita-Carita</string>
+    <string name="detail_story">Rincian Carita</string>
+    <string name="add_story">Nambah Carita</string>
+    <string name="permission">Ora olih izin saka pengguna</string>
+    <string name="desc_input">Ketik deskripsi dhisik!</string>
+    <string name="img_input">Manjingna gambar dhisik!</string>
+    <string name="uploaded">Carita diunggahake kasil!</string>
+    <string name="email_input">Email ora olih kosong!</string>
+    <string name="password_input">Sandi ora olih kosong!</string>
+    <string name="name_input">Jeneng ora olih kosong!</string>
+    <string name="logged_in">Mlebu sukses!</string>
+</resources>

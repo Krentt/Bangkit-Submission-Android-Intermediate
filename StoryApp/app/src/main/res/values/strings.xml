@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">StoryApp</string>
+    <string name="login">Login</string>
+    <string name="username">username</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login_button">Login</string>
+    <string name="register_description">Don\'t have an Account? Register now!</string>
+    <string name="register_button">Register</string>
+    <string name="email_hint">Input your email</string>
+    <string name="nama_hint">Input your name</string>
+    <string name="logout">Logout</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="upload">Upload</string>
+    <string name="description">Description</string>
+    <string name="nama_pengguna">Nama Pengguna</string>
+    <string name="tanggal_post">10/03/2004</string>
+    <string name="ini_adalah_deskripsi_gambar">Ini adalah deskripsi gambar</string>
+    <string name="change_language">Change language</string>
+    <string name="title_stories">Stories</string>
+    <string name="detail_story">Story Details</string>
+    <string name="add_story">Add Story</string>
+    <string name="permission">Don\'t get permission</string>
+    <string name="desc_input">Enter description first!</string>
+    <string name="img_input">Enter image first!</string>
+    <string name="uploaded">Story uploaded!</string>
+    <string name="email_input">Email can\'t be empty!</string>
+    <string name="password_input">Password can\'t be empty!</string>
+    <string name="name_input">Name can\'t be empty!</string>
+    <string name="logged_in">Login success!</string>
+</resources>
