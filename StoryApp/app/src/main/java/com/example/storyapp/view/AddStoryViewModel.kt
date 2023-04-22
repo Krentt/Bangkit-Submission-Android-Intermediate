@@ -10,10 +10,7 @@ import androidx.core.content.FileProvider
 import androidx.lifecycle.*
 import com.example.storyapp.api.ApiConfig
 import com.example.storyapp.api.GeneralResponse
-import com.example.storyapp.helper.Event
-import com.example.storyapp.helper.createCustomTempFile
-import com.example.storyapp.helper.rotateBitmap
-import com.example.storyapp.helper.uriToFile
+import com.example.storyapp.helper.*
 import com.example.storyapp.preferences.AuthPreference
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
@@ -50,13 +47,16 @@ class AddStoryViewModel(application: Application): AndroidViewModel(application)
 
     private lateinit var currentPhotoPath: String
 
-    fun uploadStory(description:String, file:File){
+    fun uploadStory(description:String, getFile:File){
 
         _isLoading.value = true
 
         // Get jwt token
         val authPreference = AuthPreference(getApplication())
         val token = authPreference.getKey()
+
+        //reduce file
+        val file = reduceFileImage(getFile)
 
         val requestDescription = description.toRequestBody("text/plain".toMediaType())
         val requestImageFile = file.asRequestBody("image/jpeg".toMediaType())
@@ -138,9 +138,9 @@ class AddStoryViewModel(application: Application): AndroidViewModel(application)
     fun onGalleryResult(uri: Uri) {
         uri.let { uri ->
             val myFile = uriToFile(uri, getApplication())
+            rotateFile(myFile, true)
             _getFile.postValue(myFile)
-            val result = rotateBitmap(BitmapFactory.decodeFile(myFile.path), true)
-            _previewImageBitmap.postValue(result)
+            _previewImageBitmap.postValue(BitmapFactory.decodeFile(myFile.path))
         }
     }
 }
