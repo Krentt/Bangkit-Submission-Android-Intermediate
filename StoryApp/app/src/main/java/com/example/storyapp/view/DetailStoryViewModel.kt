@@ -16,7 +16,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DetailStoryViewModel(application: Application): AndroidViewModel(application) {
+class DetailStoryViewModel(application: Application) : AndroidViewModel(application) {
 
     companion object {
         private const val TAG = "DetailStoryViewModel"
@@ -31,7 +31,7 @@ class DetailStoryViewModel(application: Application): AndroidViewModel(applicati
     private val _detailResp = MutableLiveData<Event<String>>()
     val detailResp: LiveData<Event<String>> = _detailResp
 
-    fun getDetail(idStory: String){
+    fun getDetail(idStory: String) {
         _isLoading.value = true
 
         // Get jwt token
@@ -40,28 +40,31 @@ class DetailStoryViewModel(application: Application): AndroidViewModel(applicati
 
         val apiService = ApiConfig().getApiService()
         val detailRequest = apiService.getDetailStories("Bearer $token", idStory)
-        detailRequest.enqueue(object : Callback<DetailResponse>{
+        detailRequest.enqueue(object : Callback<DetailResponse> {
             override fun onResponse(
                 call: Call<DetailResponse>,
                 response: Response<DetailResponse>
             ) {
                 _isLoading.value = false
-                if (response.isSuccessful){
+                if (response.isSuccessful) {
                     val responseBody = response.body()
-                    if (responseBody != null && !responseBody.error!!){
+                    if (responseBody != null && !responseBody.error!!) {
                         _storyDetail.value = responseBody.story
                     }
                 } else {
                     val errorBody = response.errorBody()?.string()
-                    if (errorBody != null){
-                        try{
-                            val errorResponse = Gson().fromJson(errorBody, GeneralResponse::class.java)
+                    if (errorBody != null) {
+                        try {
+                            val errorResponse =
+                                Gson().fromJson(errorBody, GeneralResponse::class.java)
                             _detailResp.value = Event(errorResponse.message)
                         } catch (e: Exception) {
-                            _detailResp.value = Event("Failed: ${response.code()} ${response.message()}")
+                            _detailResp.value =
+                                Event("Failed: ${response.code()} ${response.message()}")
                         }
                     } else {
-                        _detailResp.value = Event("Failed: ${response.code()} ${response.message()}")
+                        _detailResp.value =
+                            Event("Failed: ${response.code()} ${response.message()}")
                     }
                     Log.e(TAG, "onFailure: ${response.message()}")
                 }

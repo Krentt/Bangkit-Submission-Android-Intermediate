@@ -24,9 +24,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 
-class AddStoryViewModel(application: Application): AndroidViewModel(application) {
+class AddStoryViewModel(application: Application) : AndroidViewModel(application) {
 
-    companion object{
+    companion object {
         val TAG = "AddStoryViewModel"
     }
 
@@ -47,7 +47,7 @@ class AddStoryViewModel(application: Application): AndroidViewModel(application)
 
     private lateinit var currentPhotoPath: String
 
-    fun uploadStory(description:String, getFile:File){
+    fun uploadStory(description: String, getFile: File) {
 
         _isLoading.value = true
 
@@ -66,31 +66,35 @@ class AddStoryViewModel(application: Application): AndroidViewModel(application)
             requestImageFile
         )
         val apiService = ApiConfig().getApiService()
-        val uploadImageRequest = apiService.uploadStory("Bearer $token",imageMultipart, requestDescription)
-        uploadImageRequest.enqueue(object: Callback<GeneralResponse>{
+        val uploadImageRequest =
+            apiService.uploadStory("Bearer $token", imageMultipart, requestDescription)
+        uploadImageRequest.enqueue(object : Callback<GeneralResponse> {
             override fun onResponse(
                 call: Call<GeneralResponse>,
                 response: Response<GeneralResponse>
             ) {
                 _isLoading.value = false
-                if (response.isSuccessful){
+                if (response.isSuccessful) {
                     val responseBody = response.body()
-                    if (responseBody != null && !responseBody.error){
+                    if (responseBody != null && !responseBody.error) {
                         _isSuccess.value = true
                         _uploadResp.value = Event(responseBody.message)
                     }
                 } else {
                     val errorBody = response.errorBody()?.string()
                     _isSuccess.value = false
-                    if (errorBody != null){
-                        try{
-                            val errorResponse = Gson().fromJson(errorBody, GeneralResponse::class.java)
+                    if (errorBody != null) {
+                        try {
+                            val errorResponse =
+                                Gson().fromJson(errorBody, GeneralResponse::class.java)
                             _uploadResp.value = Event(errorResponse.message)
                         } catch (e: Exception) {
-                            _uploadResp.value = Event("Failed: ${response.code()} ${response.message()}")
+                            _uploadResp.value =
+                                Event("Failed: ${response.code()} ${response.message()}")
                         }
                     } else {
-                        _uploadResp.value = Event("Failed: ${response.code()} ${response.message()}")
+                        _uploadResp.value =
+                            Event("Failed: ${response.code()} ${response.message()}")
                     }
                     Log.e(TAG, "onFailure: ${response.message()}")
                 }
@@ -106,7 +110,8 @@ class AddStoryViewModel(application: Application): AndroidViewModel(application)
 
     fun onCameraClicked() {
         createCustomTempFile(getApplication()).also {
-            val photoURI: Uri = FileProvider.getUriForFile(getApplication(), "com.example.storyapp", it)
+            val photoURI: Uri =
+                FileProvider.getUriForFile(getApplication(), "com.example.storyapp", it)
             currentPhotoPath = it.absolutePath
             _takePhotoIntent.value = photoURI
         }
@@ -138,7 +143,6 @@ class AddStoryViewModel(application: Application): AndroidViewModel(application)
     fun onGalleryResult(uri: Uri) {
         uri.let { uri ->
             val myFile = uriToFile(uri, getApplication())
-            rotateFile(myFile, true)
             _getFile.postValue(myFile)
             _previewImageBitmap.postValue(BitmapFactory.decodeFile(myFile.path))
         }

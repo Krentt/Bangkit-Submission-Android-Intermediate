@@ -19,7 +19,7 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
 
-    private val registViewModel by viewModels<RegisterViewModel>(){
+    private val registViewModel by viewModels<RegisterViewModel>() {
         ViewModelFactory.getInstance(application)
     }
 
@@ -30,11 +30,11 @@ class RegisterActivity : AppCompatActivity() {
         showLoading(false)
         supportActionBar?.hide()
 
-        registViewModel.isLoading.observe(this){
+        registViewModel.isLoading.observe(this) {
             showLoading(it)
         }
 
-        registViewModel.registResp.observe(this){
+        registViewModel.registResp.observe(this) {
             it.getContentIfNotHandled()?.let { resp ->
                 Snackbar.make(window.decorView.rootView, resp, Snackbar.LENGTH_SHORT).show()
             }
@@ -65,7 +65,7 @@ class RegisterActivity : AppCompatActivity() {
         playAnimation()
     }
 
-    private fun playAnimation(){
+    private fun playAnimation() {
 
         ObjectAnimator.ofFloat(binding.ivRegister, View.TRANSLATION_X, -30f, 30f).apply {
             duration = 6000
@@ -77,8 +77,10 @@ class RegisterActivity : AppCompatActivity() {
         val title = ObjectAnimator.ofFloat(binding.title, View.ALPHA, 1f).setDuration(500)
         val email = ObjectAnimator.ofFloat(binding.edRegisterEmail, View.ALPHA, 1f).setDuration(500)
         val nama = ObjectAnimator.ofFloat(binding.edRegisterName, View.ALPHA, 1f).setDuration(500)
-        val password = ObjectAnimator.ofFloat(binding.edRegisterPassword, View.ALPHA, 1f).setDuration(500)
-        val btnRegister = ObjectAnimator.ofFloat(binding.edRegisterButton, View.ALPHA, 1f).setDuration(500)
+        val password =
+            ObjectAnimator.ofFloat(binding.edRegisterPassword, View.ALPHA, 1f).setDuration(500)
+        val btnRegister =
+            ObjectAnimator.ofFloat(binding.edRegisterButton, View.ALPHA, 1f).setDuration(500)
 
         AnimatorSet().apply {
             playSequentially(title, nama, email, password, btnRegister)

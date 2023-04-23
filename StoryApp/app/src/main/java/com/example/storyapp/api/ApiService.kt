@@ -10,7 +10,7 @@ interface ApiService {
     @POST("register")
     fun register(
         @Body registerRequest: RegisterRequest
-    ):Call<GeneralResponse>
+    ): Call<GeneralResponse>
 
     @POST("login")
     fun login(

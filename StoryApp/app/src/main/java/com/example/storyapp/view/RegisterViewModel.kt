@@ -13,7 +13,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class RegisterViewModel: ViewModel() {
+class RegisterViewModel : ViewModel() {
     companion object {
         private const val TAG = "RegisterViewModel"
     }
@@ -24,32 +24,35 @@ class RegisterViewModel: ViewModel() {
     private val _registResp = MutableLiveData<Event<String>>()
     val registResp: LiveData<Event<String>> = _registResp
 
-    fun register(registerRequest: RegisterRequest){
+    fun register(registerRequest: RegisterRequest) {
         _isLoading.value = true
         val apiService = ApiConfig().getApiService()
         val registerAccount = apiService.register(registerRequest)
-        registerAccount.enqueue(object: Callback<GeneralResponse> {
+        registerAccount.enqueue(object : Callback<GeneralResponse> {
             override fun onResponse(
                 call: Call<GeneralResponse>,
                 response: Response<GeneralResponse>
             ) {
                 _isLoading.value = false
-                if (response.isSuccessful){
+                if (response.isSuccessful) {
                     val responseBody = response.body()
-                    if (responseBody != null && !responseBody.error){
+                    if (responseBody != null && !responseBody.error) {
                         _registResp.value = Event(responseBody.message + ": Silahkan Login!")
                     }
                 } else {
                     val errorBody = response.errorBody()?.string()
                     if (errorBody != null) {
                         try {
-                            val errorResponse = Gson().fromJson(errorBody, GeneralResponse::class.java)
+                            val errorResponse =
+                                Gson().fromJson(errorBody, GeneralResponse::class.java)
                             _registResp.value = Event("Failed: " + errorResponse.message)
                         } catch (e: Exception) {
-                            _registResp.value = Event("Failed: ${response.code()} ${response.message()}")
+                            _registResp.value =
+                                Event("Failed: ${response.code()} ${response.message()}")
                         }
                     } else {
-                        _registResp.value = Event("Failed: ${response.code()} ${response.message()}")
+                        _registResp.value =
+                            Event("Failed: ${response.code()} ${response.message()}")
                     }
                     Log.e(TAG, "onFailure: ${response.message()}")
                 }

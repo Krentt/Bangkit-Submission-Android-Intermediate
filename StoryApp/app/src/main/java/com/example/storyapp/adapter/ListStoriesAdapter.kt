@@ -13,26 +13,28 @@ import com.example.storyapp.api.ListStoryItem
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ListStoriesAdapter (private val listStories: List<ListStoryItem>):RecyclerView.Adapter<ListStoriesAdapter.ViewHolder>() {
+class ListStoriesAdapter(private val listStories: List<ListStoryItem>) :
+    RecyclerView.Adapter<ListStoriesAdapter.ViewHolder>() {
 
     private lateinit var onItemClckCallback: OnItemClickCallback
 
-    interface OnItemClickCallback{
+    interface OnItemClickCallback {
         fun onItemClicked(data: ListStoryItem)
     }
 
-    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback){
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemClckCallback = onItemClickCallback
     }
 
-    class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imgPhoto: ImageView = itemView.findViewById(R.id.iv_item_photo)
         val tvName: TextView = itemView.findViewById(R.id.tv_item_name)
         val tvDate: TextView = itemView.findViewById(R.id.tv_item_date)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view : View = LayoutInflater.from(parent.context).inflate(R.layout.list_story, parent, false)
+        val view: View =
+            LayoutInflater.from(parent.context).inflate(R.layout.list_story, parent, false)
         return ViewHolder(view)
     }
 
@@ -56,6 +58,6 @@ class ListStoriesAdapter (private val listStories: List<ListStoryItem>):Recycler
         holder.tvName.text = name
         holder.tvDate.text = date
 
-        holder.itemView.setOnClickListener{onItemClckCallback.onItemClicked(listStories[holder.adapterPosition])}
+        holder.itemView.setOnClickListener { onItemClckCallback.onItemClicked(listStories[holder.adapterPosition]) }
     }
 }

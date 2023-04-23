@@ -16,8 +16,9 @@ class EmailEditText : AppCompatEditText, View.OnTouchListener {
 
     private lateinit var clearButtonImage: Drawable
 
-    private fun init(){
-        clearButtonImage = ContextCompat.getDrawable(context, R.drawable.ic_close_black_24dp) as Drawable
+    private fun init() {
+        clearButtonImage =
+            ContextCompat.getDrawable(context, R.drawable.ic_close_black_24dp) as Drawable
         setOnTouchListener(this)
 
         addTextChangedListener(object : TextWatcher {
@@ -26,9 +27,9 @@ class EmailEditText : AppCompatEditText, View.OnTouchListener {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0.toString().isNotEmpty()){
+                if (p0.toString().isNotEmpty()) {
                     showClearButton()
-                    if (android.util.Patterns.EMAIL_ADDRESS.matcher(p0.toString()).matches()){
+                    if (android.util.Patterns.EMAIL_ADDRESS.matcher(p0.toString()).matches()) {
 
                     } else {
                         error = "Format email tidak sesuai!"
@@ -45,13 +46,13 @@ class EmailEditText : AppCompatEditText, View.OnTouchListener {
     }
 
     override fun onTouch(v: View?, event: MotionEvent): Boolean {
-        if(compoundDrawables[2] != null){
+        if (compoundDrawables[2] != null) {
             val clearButtonStart: Float
             val clearButtonEnd: Float
             var isClearButtonClicked = false
-            if (layoutDirection == View.LAYOUT_DIRECTION_RTL){
+            if (layoutDirection == View.LAYOUT_DIRECTION_RTL) {
                 clearButtonEnd = (clearButtonImage.intrinsicWidth + paddingStart).toFloat()
-                when{
+                when {
                     event.x < clearButtonEnd -> isClearButtonClicked = true
                 }
             } else {
@@ -60,17 +61,19 @@ class EmailEditText : AppCompatEditText, View.OnTouchListener {
                     event.x > clearButtonStart -> isClearButtonClicked = true
                 }
             }
-            if (isClearButtonClicked){
-                when (event.action){
+            if (isClearButtonClicked) {
+                when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
-                        clearButtonImage = ContextCompat.getDrawable(context,
+                        clearButtonImage = ContextCompat.getDrawable(
+                            context,
                             R.drawable.ic_close_black_24dp
                         ) as Drawable
                         showClearButton()
                         return true
                     }
                     MotionEvent.ACTION_UP -> {
-                        clearButtonImage = ContextCompat.getDrawable(context,
+                        clearButtonImage = ContextCompat.getDrawable(
+                            context,
                             R.drawable.ic_close_black_24dp
                         ) as Drawable
                         when {
@@ -86,11 +89,11 @@ class EmailEditText : AppCompatEditText, View.OnTouchListener {
         return false
     }
 
-    private fun showClearButton(){
+    private fun showClearButton() {
         setButtonDrawables(endOfTheText = clearButtonImage)
     }
 
-    private fun hideClearButton(){
+    private fun hideClearButton() {
         setButtonDrawables()
     }
 
@@ -99,7 +102,7 @@ class EmailEditText : AppCompatEditText, View.OnTouchListener {
         topOfTheText: Drawable? = null,
         endOfTheText: Drawable? = null,
         bottomOfTheText: Drawable? = null
-    ){
+    ) {
         setCompoundDrawablesWithIntrinsicBounds(
             startOfTheText,
             topOfTheText,
@@ -108,15 +111,19 @@ class EmailEditText : AppCompatEditText, View.OnTouchListener {
         )
     }
 
-    constructor(context: Context): super(context){
+    constructor(context: Context) : super(context) {
         init()
     }
 
-    constructor(context: Context, attrs: AttributeSet): super(context, attrs){
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         init()
     }
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int): super(context, attrs, defStyleAttr){
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
         init()
     }
 
@@ -124,7 +131,6 @@ class EmailEditText : AppCompatEditText, View.OnTouchListener {
         super.onDraw(canvas)
         textAlignment = View.TEXT_ALIGNMENT_VIEW_START
     }
-
 
 
 }

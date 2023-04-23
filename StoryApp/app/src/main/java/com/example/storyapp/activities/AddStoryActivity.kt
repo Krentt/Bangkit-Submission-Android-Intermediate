@@ -99,7 +99,11 @@ class AddStoryActivity : AppCompatActivity() {
                     binding.edAddDescription.error = getString(R.string.desc_input)
                 }
                 getFile == null -> {
-                    Toast.makeText(this@AddStoryActivity, getString(R.string.img_input), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@AddStoryActivity,
+                        getString(R.string.img_input),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
                 else -> {
                     addStoryViewModel.uploadStory(description, getFile)
@@ -111,7 +115,7 @@ class AddStoryActivity : AppCompatActivity() {
             uploadedCheck(it)
         }
 
-        addStoryViewModel.isLoading.observe(this){
+        addStoryViewModel.isLoading.observe(this) {
             showLoading(it)
         }
 
@@ -131,7 +135,7 @@ class AddStoryActivity : AppCompatActivity() {
             })
         }
 
-        addStoryViewModel.uploadResp.observe(this){
+        addStoryViewModel.uploadResp.observe(this) {
             it.getContentIfNotHandled()?.let { resp ->
                 Snackbar.make(window.decorView.rootView, resp, Snackbar.LENGTH_SHORT).show()
             }
@@ -166,9 +170,10 @@ class AddStoryActivity : AppCompatActivity() {
         }
     }
 
-    private fun uploadedCheck(isSuccess: Boolean){
-        if (isSuccess){
+    private fun uploadedCheck(isSuccess: Boolean) {
+        if (isSuccess) {
             val intent = Intent(this@AddStoryActivity, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             mainViewModel.isToastShown = false
             intent.putExtra("show_toast", getString(R.string.uploaded))
             startActivity(intent)

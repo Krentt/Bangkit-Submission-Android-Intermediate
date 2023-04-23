@@ -36,23 +36,23 @@ class DetailStoryActivity : AppCompatActivity() {
             detailViewModel.getDetail(idStory)
         }
 
-        detailViewModel.isLoading.observe(this){
+        detailViewModel.isLoading.observe(this) {
             showLoading(it)
         }
 
-        detailViewModel.detailResp.observe(this){
+        detailViewModel.detailResp.observe(this) {
             it.getContentIfNotHandled()?.let { resp ->
                 Snackbar.make(window.decorView.rootView, resp, Snackbar.LENGTH_SHORT).show()
             }
         }
 
-        detailViewModel.storyDetail.observe(this){
+        detailViewModel.storyDetail.observe(this) {
             setDetailStory(it)
         }
 
     }
 
-    private fun setDetailStory(story: Story?){
+    private fun setDetailStory(story: Story?) {
         Glide.with(this)
             .load(story?.photoUrl)
             .into(binding.ivDetailPhoto)

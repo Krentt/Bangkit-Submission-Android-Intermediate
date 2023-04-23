@@ -16,7 +16,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class LoginViewModel(private val context: Context): ViewModel() {
+class LoginViewModel(private val context: Context) : ViewModel() {
     companion object {
         private const val TAG = "LoginViewModel"
     }
@@ -30,16 +30,16 @@ class LoginViewModel(private val context: Context): ViewModel() {
     private val _loginResp = MutableLiveData<Event<String>>()
     val loginResp: LiveData<Event<String>> = _loginResp
 
-    fun login(loginRequest: LoginRequest){
+    fun login(loginRequest: LoginRequest) {
         _isLoading.value = true
         val apiService = ApiConfig().getApiService()
         val loginAccount = apiService.login(loginRequest)
         loginAccount.enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 _isLoading.value = false
-                if (response.isSuccessful){
+                if (response.isSuccessful) {
                     val responseBody = response.body()
-                    if (responseBody != null && !responseBody.error){
+                    if (responseBody != null && !responseBody.error) {
                         _isSuccess.value = true
                         _loginResp.value = Event(responseBody.message)
                         val authPreference = AuthPreference(context)
@@ -48,12 +48,14 @@ class LoginViewModel(private val context: Context): ViewModel() {
                 } else {
                     val errorBody = response.errorBody()?.string()
                     _isSuccess.value = false
-                    if (errorBody != null){
-                        try{
-                            val errorResponse = Gson().fromJson(errorBody, GeneralResponse::class.java)
+                    if (errorBody != null) {
+                        try {
+                            val errorResponse =
+                                Gson().fromJson(errorBody, GeneralResponse::class.java)
                             _loginResp.value = Event(errorResponse.message)
                         } catch (e: Exception) {
-                            _loginResp.value = Event("Failed: ${response.code()} ${response.message()}")
+                            _loginResp.value =
+                                Event("Failed: ${response.code()} ${response.message()}")
                         }
                     } else {
                         _loginResp.value = Event("Failed: ${response.code()} ${response.message()}")
@@ -70,7 +72,7 @@ class LoginViewModel(private val context: Context): ViewModel() {
         })
     }
 
-    fun logout(){
+    fun logout() {
         val authPreference = AuthPreference(context)
         authPreference.clear()
     }

@@ -19,15 +19,15 @@ class PasswordEditText : AppCompatEditText, View.OnTouchListener {
     private lateinit var hidePassword: Drawable
     private var isPasswordVisible = false
 
-    private fun init(){
+    private fun init() {
         showPassword = ContextCompat.getDrawable(context, R.drawable.ic_show_password) as Drawable
         hidePassword = ContextCompat.getDrawable(context, R.drawable.ic_hide_password) as Drawable
         setOnTouchListener(this)
         showPassword()
 
-        addTextChangedListener(object: TextWatcher {
+        addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                if ((p0?.length ?: 0) < 8){
+                if ((p0?.length ?: 0) < 8) {
                     error = "Password setidaknya terdiri dari 8 karakter!"
                 }
             }
@@ -42,27 +42,27 @@ class PasswordEditText : AppCompatEditText, View.OnTouchListener {
         })
 
 
-
     }
 
     override fun onTouch(v: View?, event: MotionEvent): Boolean {
-        if(compoundDrawables[2] != null){
+        if (compoundDrawables[2] != null) {
             val showPasswordButtonStart: Float
             val showPasswordButtonEnd: Float
             var isButtonClicked = false
-            if (layoutDirection == View.LAYOUT_DIRECTION_RTL){
+            if (layoutDirection == View.LAYOUT_DIRECTION_RTL) {
                 showPasswordButtonEnd = (showPassword.intrinsicWidth + paddingStart).toFloat()
-                when{
+                when {
                     event.x < showPasswordButtonEnd -> isButtonClicked = true
                 }
             } else {
-                showPasswordButtonStart = (width - paddingEnd - showPassword.intrinsicWidth).toFloat()
+                showPasswordButtonStart =
+                    (width - paddingEnd - showPassword.intrinsicWidth).toFloat()
                 when {
                     event.x > showPasswordButtonStart -> isButtonClicked = true
                 }
             }
-            if (isButtonClicked){
-                when (event.action){
+            if (isButtonClicked) {
+                when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
                         isPasswordVisible = !isPasswordVisible
                         showPassword()
@@ -79,8 +79,8 @@ class PasswordEditText : AppCompatEditText, View.OnTouchListener {
         return false
     }
 
-    private fun showPassword(){
-        if (isPasswordVisible){
+    private fun showPassword() {
+        if (isPasswordVisible) {
             setButtonDrawables(endOfTheText = showPassword)
             transformationMethod = null
         } else {
@@ -94,7 +94,7 @@ class PasswordEditText : AppCompatEditText, View.OnTouchListener {
         topOfTheText: Drawable? = null,
         endOfTheText: Drawable? = null,
         bottomOfTheText: Drawable? = null
-    ){
+    ) {
         setCompoundDrawablesWithIntrinsicBounds(
             startOfTheText,
             topOfTheText,
@@ -103,15 +103,19 @@ class PasswordEditText : AppCompatEditText, View.OnTouchListener {
         )
     }
 
-    constructor(context: Context): super(context){
+    constructor(context: Context) : super(context) {
         init()
     }
 
-    constructor(context: Context, attrs: AttributeSet): super(context, attrs){
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         init()
     }
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int): super(context, attrs, defStyleAttr){
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
         init()
     }
 

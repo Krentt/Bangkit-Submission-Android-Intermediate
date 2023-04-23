@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private val loginViewModel by viewModels<LoginViewModel>(){
+    private val loginViewModel by viewModels<LoginViewModel>() {
         ViewModelFactory.getInstance(application)
     }
 
@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 
         // Check user login
         val authPreference = AuthPreference(this)
-        if (authPreference.getKey() == ""){
+        if (authPreference.getKey() == "") {
             val intent = Intent(this@MainActivity, LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
@@ -58,23 +58,23 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this@MainActivity, AddStoryActivity::class.java))
         }
 
-        mainViewModel.isLoading.observe(this){
+        mainViewModel.isLoading.observe(this) {
             showLoading(it)
         }
 
-        mainViewModel.listStories.observe(this){ listStories ->
+        mainViewModel.listStories.observe(this) { listStories ->
             setListStories(listStories)
         }
 
-        mainViewModel.getResp.observe(this){
+        mainViewModel.getResp.observe(this) {
             it.getContentIfNotHandled()?.let { resp ->
                 Snackbar.make(window.decorView.rootView, resp, Snackbar.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun setListStories(listStories: List<ListStoryItem?>?){
-        if (listStories != null){
+    private fun setListStories(listStories: List<ListStoryItem?>?) {
+        if (listStories != null) {
             binding.listStories.layoutManager = LinearLayoutManager(this)
             val adapter = ListStoriesAdapter(listStories.filterNotNull())
             binding.listStories.adapter = adapter
@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId){
+        when (item.itemId) {
             R.id.logout -> {
                 loginViewModel.logout()
                 startActivity(Intent(this@MainActivity, LoginActivity::class.java))

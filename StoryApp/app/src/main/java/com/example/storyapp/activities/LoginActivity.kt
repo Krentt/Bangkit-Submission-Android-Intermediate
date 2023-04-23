@@ -21,7 +21,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityLoginBinding
 
-    private val loginViewModel by viewModels<LoginViewModel>(){
+    private val loginViewModel by viewModels<LoginViewModel>() {
         ViewModelFactory.getInstance(application)
     }
 
@@ -40,15 +40,15 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         binding.edLoginButton.setOnClickListener(this)
 
 
-        loginViewModel.isLoading.observe(this){
+        loginViewModel.isLoading.observe(this) {
             showLoading(it)
         }
 
-        loginViewModel.isSuccess.observe(this){
+        loginViewModel.isSuccess.observe(this) {
             authCheck(it)
         }
 
-        loginViewModel.loginResp.observe(this){
+        loginViewModel.loginResp.observe(this) {
             it.getContentIfNotHandled()?.let { resp ->
                 Snackbar.make(window.decorView.rootView, resp, Snackbar.LENGTH_SHORT).show()
             }
@@ -57,7 +57,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         playAnimation()
     }
 
-    private fun playAnimation(){
+    private fun playAnimation() {
 
         ObjectAnimator.ofFloat(binding.ivLogin, View.TRANSLATION_X, -30f, 30f).apply {
             duration = 6000
@@ -68,11 +68,14 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
         val title = ObjectAnimator.ofFloat(binding.title, View.ALPHA, 1f).setDuration(500)
         val email = ObjectAnimator.ofFloat(binding.edLoginEmail, View.ALPHA, 1f).setDuration(500)
-        val password = ObjectAnimator.ofFloat(binding.edLoginPassword, View.ALPHA, 1f).setDuration(500)
-        val btnLogin = ObjectAnimator.ofFloat(binding.edLoginButton, View.ALPHA, 1f).setDuration(500)
+        val password =
+            ObjectAnimator.ofFloat(binding.edLoginPassword, View.ALPHA, 1f).setDuration(500)
+        val btnLogin =
+            ObjectAnimator.ofFloat(binding.edLoginButton, View.ALPHA, 1f).setDuration(500)
         val line = ObjectAnimator.ofFloat(binding.line, View.ALPHA, 1f).setDuration(500)
         val desc = ObjectAnimator.ofFloat(binding.tvAkun, View.ALPHA, 1f).setDuration(500)
-        val btnRegister = ObjectAnimator.ofFloat(binding.edRegister, View.ALPHA, 1f).setDuration(500)
+        val btnRegister =
+            ObjectAnimator.ofFloat(binding.edRegister, View.ALPHA, 1f).setDuration(500)
 
         val together = AnimatorSet().apply {
             playTogether(desc, btnRegister)
@@ -87,7 +90,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(p0: View?) {
-        when(p0?.id){
+        when (p0?.id) {
             R.id.ed_register -> {
                 startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
             }
@@ -104,7 +107,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                     else -> {
                         val loginRequest = LoginRequest(email, password)
                         loginViewModel.login(loginRequest)
-                        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                        val imm =
+                            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                         imm.hideSoftInputFromWindow(p0.windowToken, 0)
                     }
                 }
@@ -122,8 +126,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun authCheck(isSuccess: Boolean){
-        if (isSuccess){
+    private fun authCheck(isSuccess: Boolean) {
+        if (isSuccess) {
             val intent = Intent(this@LoginActivity, MainActivity::class.java)
             mainViewModel.isToastShown = false
             intent.putExtra("show_toast", getString(R.string.logged_in))
