@@ -30,4 +30,5 @@
     <string name="password_input">Sandi ora olih kosong!</string>
     <string name="name_input">Jeneng ora olih kosong!</string>
     <string name="logged_in">Mlebu sukses!</string>
+    <string name="please_login">Monggo manjing!</string>
 </resources>

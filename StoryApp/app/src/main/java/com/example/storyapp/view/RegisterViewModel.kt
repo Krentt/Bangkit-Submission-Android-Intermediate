@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.storyapp.R
 import com.example.storyapp.api.ApiConfig
 import com.example.storyapp.api.RegisterRequest
 import com.example.storyapp.api.GeneralResponse
@@ -37,7 +38,7 @@ class RegisterViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null && !responseBody.error) {
-                        _registResp.value = Event(responseBody.message + ": Silahkan Login!")
+                        _registResp.value = Event(responseBody.message + ": " +R.string.please_login)
                     }
                 } else {
                     val errorBody = response.errorBody()?.string()

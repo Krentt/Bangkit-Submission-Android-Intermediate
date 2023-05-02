@@ -30,4 +30,5 @@
     <string name="password_input">Kata sandi tidak boleh kosong!</string>
     <string name="name_input">Nama tidak boleh kosong!</string>
     <string name="logged_in">Berhasil masuk!</string>
+    <string name="please_login">Silahkan masuk!</string>
 </resources>

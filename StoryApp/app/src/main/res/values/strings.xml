@@ -29,4 +29,5 @@
     <string name="password_input">Password can\'t be empty!</string>
     <string name="name_input">Name can\'t be empty!</string>
     <string name="logged_in">Login success!</string>
+    <string name="please_login">Please login!</string>
 </resources>
