@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.storyapp.MapsActivity
 import com.example.storyapp.R
 import com.example.storyapp.adapter.ListStoriesAdapter
 import com.example.storyapp.api.ListStoryItem
@@ -105,6 +106,10 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.settings -> {
                 startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
+                return true
+            }
+            R.id.map -> {
+                startActivity(Intent(this@MainActivity, MapsActivity::class.java))
                 return true
             }
             else -> {

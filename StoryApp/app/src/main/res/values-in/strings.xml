@@ -31,4 +31,6 @@
     <string name="name_input">Nama tidak boleh kosong!</string>
     <string name="logged_in">Berhasil masuk!</string>
     <string name="please_login">Silahkan masuk!</string>
+    <string name="title_activity_maps">Lokasi Cerita</string>
+    <string name="menu_map">Lokasi Cerita</string>
 </resources>

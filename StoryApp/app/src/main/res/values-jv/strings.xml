@@ -31,4 +31,6 @@
     <string name="name_input">Jeneng ora olih kosong!</string>
     <string name="logged_in">Mlebu sukses!</string>
     <string name="please_login">Monggo manjing!</string>
+    <string name="title_activity_maps">Peta Carita</string>
+    <string name="menu_map">Peta Carita</string>
 </resources>

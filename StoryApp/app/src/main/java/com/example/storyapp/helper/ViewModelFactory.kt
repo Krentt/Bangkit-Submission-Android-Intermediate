@@ -39,6 +39,8 @@ class ViewModelFactory private constructor(
             return MainViewModel(application) as T
         } else if (modelClass.isAssignableFrom(DetailStoryViewModel::class.java)) {
             return DetailStoryViewModel(application) as T
+        } else if (modelClass.isAssignableFrom(MapViewModel::class.java)) {
+            return MapViewModel(application) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
     }
