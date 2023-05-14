@@ -6,11 +6,16 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import androidx.activity.viewModels
 import com.example.storyapp.R
 import com.example.storyapp.api.LoginRequest
+import com.example.storyapp.customView.EmailEditText
+import com.example.storyapp.customView.PasswordEditText
 import com.example.storyapp.databinding.ActivityLoginBinding
 import com.example.storyapp.helper.ViewModelFactory
 import com.example.storyapp.view.LoginViewModel
@@ -29,6 +34,10 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         ViewModelFactory.getInstance(application)
     }
 
+    private lateinit var emailText: EmailEditText
+    private lateinit var passwordEditText: PasswordEditText
+    private lateinit var button: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater);
@@ -39,6 +48,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         binding.edRegister.setOnClickListener(this)
         binding.edLoginButton.setOnClickListener(this)
 
+        emailText = binding.edLoginEmail
+        button = binding.edLoginButton
+        passwordEditText = binding.edLoginPassword
 
         loginViewModel.isLoading.observe(this) {
             showLoading(it)
@@ -54,7 +66,34 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
 
+        emailText.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            }
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                setMyButtonEnable()
+            }
+            override fun afterTextChanged(s: Editable) {
+            }
+        })
+
+        passwordEditText.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            }
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                setMyButtonEnable()
+            }
+            override fun afterTextChanged(s: Editable) {
+            }
+        })
+
         playAnimation()
+    }
+
+    private fun setMyButtonEnable(){
+        val result = emailText.text
+        val password = passwordEditText.text
+        button.isEnabled = android.util.Patterns.EMAIL_ADDRESS.matcher(result.toString()).matches() && result.toString().isNotEmpty() &&
+                password.toString().length >= 8
     }
 
     private fun playAnimation() {

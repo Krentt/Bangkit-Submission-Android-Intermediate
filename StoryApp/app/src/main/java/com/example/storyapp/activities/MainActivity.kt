@@ -6,13 +6,12 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.storyapp.MapsActivity
 import com.example.storyapp.R
 import com.example.storyapp.adapter.ListStoriesAdapter
+import com.example.storyapp.adapter.LoadingStateAdapter
 import com.example.storyapp.api.ListStoryItem
 import com.example.storyapp.databinding.ActivityMainBinding
 import com.example.storyapp.helper.ViewModelFactory
@@ -53,18 +52,8 @@ class MainActivity : AppCompatActivity() {
             mainViewModel.isToastShown = true
         }
 
-        mainViewModel.getStories()
-
         binding.fabAdd.setOnClickListener {
             startActivity(Intent(this@MainActivity, AddStoryActivity::class.java))
-        }
-
-        mainViewModel.isLoading.observe(this) {
-            showLoading(it)
-        }
-
-        mainViewModel.listStories.observe(this) { listStories ->
-            setListStories(listStories)
         }
 
         mainViewModel.getResp.observe(this) {
@@ -72,22 +61,28 @@ class MainActivity : AppCompatActivity() {
                 Snackbar.make(window.decorView.rootView, resp, Snackbar.LENGTH_SHORT).show()
             }
         }
+        getData()
     }
 
-    private fun setListStories(listStories: List<ListStoryItem?>?) {
-        if (listStories != null) {
-            binding.listStories.layoutManager = LinearLayoutManager(this)
-            val adapter = ListStoriesAdapter(listStories.filterNotNull())
-            binding.listStories.adapter = adapter
-
-            adapter.setOnItemClickCallback(object : ListStoriesAdapter.OnItemClickCallback {
-                override fun onItemClicked(data: ListStoryItem) {
-                    val intent = Intent(this@MainActivity, DetailStoryActivity::class.java)
-                    intent.putExtra("id_story", data.id)
-                    startActivity(intent)
-                }
-            })
+    private fun getData(){
+        val adapter = ListStoriesAdapter()
+        binding.listStories.layoutManager = LinearLayoutManager(this)
+        binding.listStories.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter{
+                adapter.retry()
+            }
+        )
+        mainViewModel.listStories.observe(this){
+            adapter.submitData(lifecycle, it)
         }
+
+        adapter.setOnItemClickCallback(object : ListStoriesAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: ListStoryItem) {
+                val intent = Intent(this@MainActivity, DetailStoryActivity::class.java)
+                intent.putExtra("id_story", data.id)
+                startActivity(intent)
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -115,14 +110,6 @@ class MainActivity : AppCompatActivity() {
             else -> {
                 return true
             }
-        }
-    }
-
-    private fun showLoading(isLoading: Boolean) {
-        if (isLoading) {
-            binding.progressBar.visibility = View.VISIBLE
-        } else {
-            binding.progressBar.visibility = View.GONE
         }
     }
 }

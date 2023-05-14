@@ -33,4 +33,5 @@
     <string name="please_login">Silahkan masuk!</string>
     <string name="title_activity_maps">Lokasi Cerita</string>
     <string name="menu_map">Lokasi Cerita</string>
+    <string name="retry">Coba lagi</string>
 </resources>

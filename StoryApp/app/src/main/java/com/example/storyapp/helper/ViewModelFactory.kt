@@ -5,6 +5,7 @@ import android.app.Application
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.storyapp.di.Injection
 import com.example.storyapp.view.*
 
 class ViewModelFactory private constructor(
@@ -36,7 +37,7 @@ class ViewModelFactory private constructor(
         } else if (modelClass.isAssignableFrom(AddStoryViewModel::class.java)) {
             return AddStoryViewModel(application) as T
         } else if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
-            return MainViewModel(application) as T
+            return MainViewModel(Injection.provideRepository(context), application) as T
         } else if (modelClass.isAssignableFrom(DetailStoryViewModel::class.java)) {
             return DetailStoryViewModel(application) as T
         } else if (modelClass.isAssignableFrom(MapViewModel::class.java)) {

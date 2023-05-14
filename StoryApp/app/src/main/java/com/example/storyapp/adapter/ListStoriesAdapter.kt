@@ -1,22 +1,36 @@
 package com.example.storyapp.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.storyapp.R
 import com.example.storyapp.api.ListStoryItem
+import com.example.storyapp.database.Story
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ListStoriesAdapter(private val listStories: List<ListStoryItem>) :
-    RecyclerView.Adapter<ListStoriesAdapter.ViewHolder>() {
+class ListStoriesAdapter :
+    PagingDataAdapter<Story, ListStoriesAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     private lateinit var onItemClckCallback: OnItemClickCallback
+
+    companion object {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Story>() {
+            override fun areItemsTheSame(oldItem: Story, newItem: Story): Boolean {
+                return oldItem == newItem
+            }
+
+            override fun areContentsTheSame(oldItem: Story, newItem: Story): Boolean {
+                return oldItem.id == newItem.id
+            }
+        }
+    }
 
     interface OnItemClickCallback {
         fun onItemClicked(data: ListStoryItem)
@@ -38,26 +52,34 @@ class ListStoriesAdapter(private val listStories: List<ListStoryItem>) :
         return ViewHolder(view)
     }
 
-    override fun getItemCount(): Int {
-        Log.d("ListStoriesAdapter", listStories.size.toString())
-        return listStories.size
-    }
+
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val name = listStories[position].name
 
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
-        val outputFormat = SimpleDateFormat("MMM dd, yyyy 'at' hh:mm a", Locale.getDefault())
-        val dateResp = listStories[position].createdAt
-        val parseDate = dateResp?.let { inputFormat.parse(it) }
-        val date = parseDate?.let { outputFormat.format(it) }
-        val photo = listStories[position].photoUrl
-        Glide.with(holder.itemView.context)
-            .load(photo)
-            .into(holder.imgPhoto)
-        holder.tvName.text = name
-        holder.tvDate.text = date
+        val listStories = getItem(position)
+        if (listStories != null ){
+            val name = listStories.name
 
-        holder.itemView.setOnClickListener { onItemClckCallback.onItemClicked(listStories[holder.adapterPosition]) }
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+            val outputFormat = SimpleDateFormat("MMM dd, yyyy 'at' hh:mm a", Locale.getDefault())
+            val dateResp = listStories.createdAt
+            val parseDate = dateResp?.let { inputFormat.parse(it) }
+            val date = parseDate?.let { outputFormat.format(it) }
+            val photo = listStories.photoUrl
+            Glide.with(holder.itemView.context)
+                .load(photo)
+                .into(holder.imgPhoto)
+            holder.tvName.text = name
+            holder.tvDate.text = date
+
+            val listStoryItem = ListStoryItem(
+                id = listStories.id,
+                name = listStories.name,
+                createdAt = listStories.createdAt,
+                photoUrl = listStories.photoUrl
+            )
+
+            holder.itemView.setOnClickListener { onItemClckCallback.onItemClicked(listStoryItem) }
+        }
     }
 }

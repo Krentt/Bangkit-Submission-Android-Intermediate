@@ -65,7 +65,7 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="10dp" />
 
-        <Button
+        <com.example.storyapp.customView.MyButton
             android:id="@+id/ed_login_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -75,8 +75,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginHorizontal="40dp"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="@color/navy_200"/>
+            android:layout_marginTop="20dp" />
 
         <View
             android:id="@+id/line"
